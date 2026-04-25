@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PotterTools</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -29,17 +30,29 @@
     }
 
     .tab {
-      font-size: 28px;
-      padding: 14px;
-      border-radius: 18px;
+      height: 64px;
+      padding: 0;
+      border-radius: 20px;
       border: 1px solid #ead9c8;
       background: #fffaf4;
       box-shadow: 0 6px 18px rgba(70, 45, 25, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab svg {
+      width: 32px;
+      height: 32px;
+      fill: #8f5130;
     }
 
     .tab.active {
       background: #b86f45;
-      color: white;
+    }
+
+    .tab.active svg {
+      fill: white;
     }
 
     .card {
@@ -109,62 +122,12 @@
       color: white;
     }
 
-    .result {
-      padding: 20px;
-      background: #f1dfcd;
-      border-radius: 18px;
-      margin-top: 16px;
-    }
-
-    .result .big {
-      font-size: 42px;
-      font-weight: 900;
-      color: #8f5130;
-    }
-
-    .unit {
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .small {
-      font-size: 14px;
-      color: #7b6657;
-      margin-top: 4px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .history-item, .clay-item {
-      background: #fff;
-      border: 1px solid #ead9c8;
-      border-radius: 16px;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 15px;
-    }
-
-    .history-item strong, .clay-item strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .tiny-btn {
-      font-size: 13px;
-      padding: 8px 10px;
-      margin-top: 8px;
-      border-radius: 10px;
-    }
-
     .input-wrap {
       position: relative;
     }
 
     .input-wrap input {
-      padding-right: 54px;
+      padding-right: 58px;
     }
 
     .input-unit {
@@ -175,15 +138,138 @@
       font-weight: 800;
       color: #7b6657;
     }
+
+    .result {
+      min-height: 150px;
+      padding: 24px;
+      background: #f1dfcd;
+      border-radius: 18px;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .result-label {
+      font-size: 15px;
+      color: #7b6657;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .result .big {
+      font-size: 46px;
+      font-weight: 900;
+      color: #8f5130;
+      line-height: 1;
+    }
+
+    .unit {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #7b6657;
+      margin-top: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .clay-item {
+      background: #fff;
+      border: 1px solid #ead9c8;
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    .clay-item strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .history-item {
+      background: #fff;
+      border: 1px solid #ead9c8;
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .badge {
+      background: #f1dfcd;
+      color: #6b3f28;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .history-clay {
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .history-result {
+      font-size: 28px;
+      font-weight: 900;
+      color: #8f5130;
+      margin: 8px 0 4px;
+    }
+
+    .history-line {
+      color: #7b6657;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .tiny-btn {
+      font-size: 13px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      border-radius: 10px;
+    }
   </style>
 </head>
+
 <body>
   <main class="app">
 
     <nav class="tabs">
-      <button class="tab active" onclick="showPage('calc')" id="tabCalc">🏺</button>
-      <button class="tab" onclick="showPage('clays')" id="tabClays">➕</button>
-      <button class="tab" onclick="showPage('history')" id="tabHistory">🕘</button>
+      <button class="tab active" onclick="showPage('calc')" id="tabCalc" aria-label="Calcul">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 3h12v3c0 1.7-.9 3.2-2.2 4 1.9 1.1 3.2 3.2 3.2 5.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5c0-2.3 1.3-4.4 3.2-5.5A4.8 4.8 0 0 1 6 6V3Zm2 2v1c0 1.7 1.3 3 3 3h2c1.7 0 3-1.3 3-3V5H8Zm2.5 6A3.5 3.5 0 0 0 7 14.5V16a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3Z"/>
+        </svg>
+      </button>
+
+      <button class="tab" onclick="showPage('clays')" id="tabClays" aria-label="Ajouter une terre">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/>
+        </svg>
+      </button>
+
+      <button class="tab" onclick="showPage('history')" id="tabHistory" aria-label="Historique">
+        <svg viewBox="0 0 24 24">
+          <path d="M13 3a9 9 0 1 1-8.5 6H2l3.3-3.3L8.6 9H6.6A7 7 0 1 0 13 5V3Zm-1 5h2v5l4 2-.9 1.6-5.1-3V8Z"/>
+        </svg>
+      </button>
     </nav>
 
     <section id="pageCalc" class="card">
@@ -210,7 +296,6 @@
       <button onclick="calculate()">Calculer</button>
 
       <div class="result" id="result">
-        <div class="small">Résultat en centimètres</div>
         <div class="big">— <span class="unit">cm</span></div>
       </div>
 
@@ -332,8 +417,10 @@
       }
 
       setClays(clays);
+
       document.getElementById("newClayName").value = "";
       document.getElementById("newClayShrink").value = "";
+
       renderClays();
       showPage("calc");
     }
@@ -355,7 +442,6 @@
         mode === "freshToFinal" ? "Taille fraîche" : "Taille finale voulue";
 
       document.getElementById("result").innerHTML = `
-        <div class="small">Résultat en centimètres</div>
         <div class="big">— <span class="unit">cm</span></div>
       `;
     }
@@ -389,7 +475,7 @@
       result = Math.round(result * 100) / 100;
 
       document.getElementById("result").innerHTML = `
-        <div class="small">${label}</div>
+        <div class="result-label">${label}</div>
         <div class="big">${result} <span class="unit">cm</span></div>
         <div class="small">avec ${shrink} % de retrait</div>
       `;
@@ -414,6 +500,7 @@
       history.unshift(lastCalculation);
       setHistory(history.slice(0, 30));
       renderHistory();
+      showPage("history");
     }
 
     function renderHistory() {
@@ -435,13 +522,25 @@
           ? "Fraîche → finale"
           : "Finale → fraîche";
 
+        const inputText = item.mode === "freshToFinal"
+          ? `Taille fraîche : ${item.input} cm`
+          : `Taille finale voulue : ${item.input} cm`;
+
+        const resultText = item.mode === "freshToFinal"
+          ? `Finale : ${item.result} cm`
+          : `Fraîche : ${item.result} cm`;
+
         div.innerHTML = `
-          <strong>${item.clay}</strong>
-          ${modeText}<br>
-          Entrée : ${item.input} cm<br>
-          Résultat : ${item.result} cm<br>
-          Retrait : ${item.shrink} %<br>
-          <span class="small">${item.date}</span>
+          <div class="history-top">
+            <div class="history-clay">${item.clay}</div>
+            <div class="badge">${modeText}</div>
+          </div>
+
+          <div class="history-result">${resultText}</div>
+
+          <div class="history-line">${inputText}</div>
+          <div class="history-line">Retrait : ${item.shrink} %</div>
+          <div class="history-line">${item.date}</div>
         `;
 
         list.appendChild(div);
