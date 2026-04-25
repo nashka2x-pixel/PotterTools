@@ -208,8 +208,13 @@
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       align-items: center;
+    }
+
+    .history-clay {
+      font-weight: 900;
+      font-size: 16px;
     }
 
     .badge {
@@ -222,22 +227,22 @@
       white-space: nowrap;
     }
 
-    .history-clay {
-      font-weight: 900;
+    .history-phrase {
       font-size: 16px;
+      line-height: 1.55;
+      color: #2d2118;
+      margin: 8px 0;
     }
 
-    .history-result {
-      font-size: 28px;
-      font-weight: 900;
+    .history-phrase strong {
       color: #8f5130;
-      margin: 8px 0 4px;
+      font-size: 18px;
     }
 
-    .history-line {
+    .history-date {
       color: #7b6657;
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 13px;
+      margin-top: 8px;
     }
 
     .tiny-btn {
@@ -393,6 +398,7 @@
     document.getElementById("claySelect").addEventListener("change", function() {
       const clays = getClays();
       const clay = clays[this.value];
+
       if (clay) {
         document.getElementById("shrinkInput").value = clay.shrink;
       }
@@ -518,29 +524,31 @@
         const div = document.createElement("div");
         div.className = "history-item";
 
-        const modeText = item.mode === "freshToFinal"
-          ? "Fraîche → finale"
-          : "Finale → fraîche";
+        let phrase = "";
 
-        const inputText = item.mode === "freshToFinal"
-          ? `Taille fraîche : ${item.input} cm`
-          : `Taille finale voulue : ${item.input} cm`;
-
-        const resultText = item.mode === "freshToFinal"
-          ? `Finale : ${item.result} cm`
-          : `Fraîche : ${item.result} cm`;
+        if (item.mode === "freshToFinal") {
+          phrase = `
+            Taille fraîche <strong>${item.input} cm</strong><br>
+            → Taille finale estimée <strong>${item.result} cm</strong>
+          `;
+        } else {
+          phrase = `
+            Taille finale voulue <strong>${item.input} cm</strong><br>
+            → Taille fraîche à faire <strong>${item.result} cm</strong>
+          `;
+        }
 
         div.innerHTML = `
           <div class="history-top">
             <div class="history-clay">${item.clay}</div>
-            <div class="badge">${modeText}</div>
+            <div class="badge">${item.shrink} %</div>
           </div>
 
-          <div class="history-result">${resultText}</div>
+          <div class="history-phrase">
+            ${phrase}
+          </div>
 
-          <div class="history-line">${inputText}</div>
-          <div class="history-line">Retrait : ${item.shrink} %</div>
-          <div class="history-line">${item.date}</div>
+          <div class="history-date">${item.date}</div>
         `;
 
         list.appendChild(div);
