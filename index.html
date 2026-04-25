@@ -7,16 +7,16 @@
 
 <style>
 :root {
-  --bg:#f4eadf;
-  --card:#fffaf4;
-  --card2:#f1e3d3;
-  --line:#e1cfbd;
-  --text:#2d2118;
-  --muted:#7b6657;
-  --accent:#b86f45;
-  --accent-dark:#8f5130;
+  --bg:#fff5ea;
+  --paper:#fffaf4;
+  --paper2:#f8eadb;
+  --line:#e4cbb5;
+  --text:#2f2118;
+  --muted:#806755;
+  --accent:#c96632;
+  --accent2:#de8a55;
+  --accent-dark:#8e431f;
   --danger:#a14f42;
-  --white:#ffffff;
 }
 
 * { box-sizing:border-box; }
@@ -25,148 +25,144 @@ body {
   margin:0;
   min-height:100vh;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(120,90,60,.06) 1px, transparent 1px),
-    radial-gradient(circle at 80% 60%, rgba(120,90,60,.05) 1px, transparent 1px),
-    var(--bg);
-  background-size:18px 18px;
   color:var(--text);
-  padding:14px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(180,110,60,.08) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(180,110,60,.06) 1px, transparent 1px),
+    var(--bg);
+  background-size:20px 20px;
 }
 
 .app {
   max-width:430px;
   margin:0 auto;
-  padding-bottom:30px;
+  min-height:100vh;
+  padding:18px 14px 28px;
 }
 
-.tabs {
+/* TOP NAV */
+.top-nav {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-bottom:14px;
+  gap:12px;
+  margin-bottom:22px;
+  padding-top:8px;
 }
 
-.tab {
-  height:62px;
-  border:1px solid var(--line);
-  border-radius:22px;
-  background:var(--card);
+.nav-btn {
+  background:transparent;
+  border:none;
+  padding:0;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.nav-icon {
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#f6e7d8;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 8px 20px rgba(70,45,25,.08);
+  box-shadow:0 8px 18px rgba(110,70,40,.10);
 }
 
-.tab svg {
-  width:31px;
-  height:31px;
-  fill:var(--accent-dark);
+.nav-icon svg {
+  width:30px;
+  height:30px;
+  fill:#5b3926;
 }
 
-.tab.active {
-  background:var(--accent);
+.nav-btn.active {
+  color:var(--accent-dark);
 }
 
-.tab.active svg {
+.nav-btn.active .nav-icon {
+  background:linear-gradient(160deg,var(--accent2),var(--accent));
+}
+
+.nav-btn.active svg {
   fill:white;
 }
 
+.nav-btn.active::after {
+  content:"";
+  width:76px;
+  height:3px;
+  border-radius:99px;
+  background:var(--accent);
+  margin-top:3px;
+}
+
+/* CARDS */
 .card {
-  background:var(--card);
+  background:rgba(255,250,244,.92);
   border:1px solid var(--line);
-  border-radius:26px;
+  border-radius:24px;
   padding:18px;
-  box-shadow:0 10px 24px rgba(70,45,25,.10);
+  box-shadow:0 14px 32px rgba(90,55,30,.13);
+  margin-bottom:16px;
 }
 
 .hidden { display:none; }
 
 h2 {
-  margin:0 0 14px;
-  font-size:22px;
+  margin:0 0 16px;
+  font-size:24px;
 }
 
-label {
-  display:block;
-  margin:14px 0 6px;
-  font-weight:800;
-}
-
-input, select, button {
-  width:100%;
-  font-size:18px;
-  border-radius:16px;
-  padding:14px;
-  border:1px solid var(--line);
-  background:var(--white);
-  color:var(--text);
-}
-
-button {
-  border:none;
-  background:var(--accent);
-  color:white;
-  font-weight:900;
-  margin-top:14px;
-  cursor:pointer;
-}
-
-button.secondary {
-  background:var(--card2);
-  color:var(--text);
-}
-
-button.danger {
-  background:var(--danger);
-}
-
+/* MODE */
 .mode {
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:16px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:18px;
+  background:#f8eadb;
 }
 
 .mode button {
-  margin:0;
-  padding:12px;
-  font-size:15px;
-  background:var(--card2);
-  color:var(--muted);
+  border:0;
+  padding:14px 8px;
+  font-size:16px;
+  font-weight:900;
+  background:transparent;
+  color:var(--text);
 }
 
 .mode button.active {
-  background:var(--accent);
+  background:linear-gradient(160deg,var(--accent2),var(--accent));
   color:white;
 }
 
-.clay-info, .path span {
-  background:var(--card2);
-  color:var(--muted);
-  font-weight:800;
-}
-
-.clay-info {
-  margin-top:10px;
-  padding:12px;
-  border-radius:16px;
-  text-align:center;
-}
-
-.path {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin:16px 0 4px;
-  color:var(--muted);
+/* FORM */
+label {
+  display:block;
+  font-size:20px;
   font-weight:900;
+  margin:16px 0 8px;
 }
 
-.path span {
-  padding:8px 10px;
-  border-radius:999px;
+select, input, button {
+  width:100%;
+  font-size:18px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  padding:15px;
+  background:#fffdf9;
+  color:var(--text);
+}
+
+select {
+  font-weight:700;
 }
 
 .input-wrap {
@@ -179,54 +175,112 @@ button.danger {
 
 .input-unit {
   position:absolute;
-  right:16px;
+  right:17px;
   top:50%;
   transform:translateY(-50%);
+  font-weight:900;
   color:var(--muted);
+}
+
+.main-btn {
+  margin-top:18px;
+  border:none;
+  background:linear-gradient(160deg,var(--accent2),var(--accent));
+  color:white;
+  font-weight:950;
+  font-size:20px;
+  box-shadow:0 8px 18px rgba(190,90,40,.25);
+  cursor:pointer;
+}
+
+.secondary {
+  border:1px solid var(--line);
+  background:#f9eadb;
+  color:var(--text);
+  font-weight:900;
+  margin-top:14px;
+}
+
+.danger {
+  background:var(--danger);
+  color:white;
+  border:none;
   font-weight:900;
 }
 
+/* PATH */
+.path {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:20px 0 8px;
+}
+
+.path-pill {
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:13px 10px;
+  border-radius:999px;
+  background:#f6dfca;
+  font-size:18px;
+  font-weight:950;
+}
+
+.path-arrow {
+  font-size:32px;
+  font-weight:900;
+}
+
+/* RESULT */
 .result {
-  min-height:150px;
-  margin-top:16px;
-  padding:24px;
-  background:#f4e5d6;
-  border:1px solid #e2cdb8;
-  border-radius:22px;
+  min-height:165px;
+  background:linear-gradient(160deg,#fff1e2,#fde0c5);
+  border:1px solid #e9c39f;
+  border-radius:24px;
+  padding:22px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
+  margin-bottom:16px;
 }
 
 .result-label {
-  color:var(--muted);
-  font-size:15px;
-  font-weight:800;
-  margin-bottom:8px;
+  color:var(--accent-dark);
+  font-weight:950;
+  font-size:19px;
+  margin-bottom:10px;
 }
 
 .big {
-  color:var(--accent-dark);
-  font-size:46px;
+  font-size:64px;
+  line-height:.95;
   font-weight:950;
-  line-height:1;
+  letter-spacing:-2px;
+  color:#3a281d;
 }
 
 .unit {
-  font-size:24px;
-  font-weight:900;
+  font-size:30px;
+  font-weight:950;
+  letter-spacing:0;
 }
 
 .small {
   color:var(--muted);
-  font-size:14px;
-  margin-top:8px;
+  font-size:15px;
+  margin-top:10px;
+  font-weight:700;
 }
 
+/* LISTS */
 .clay-item, .history-item {
-  background:var(--white);
+  background:#fffdf9;
   border:1px solid var(--line);
   border-radius:18px;
   padding:14px;
@@ -235,26 +289,25 @@ button.danger {
 
 .clay-item strong,
 .history-clay {
+  font-size:17px;
   font-weight:950;
-  font-size:16px;
+}
+
+.badge {
+  background:#f4ddc8;
+  color:var(--accent-dark);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:13px;
+  font-weight:950;
 }
 
 .history-top {
   display:flex;
   justify-content:space-between;
-  gap:10px;
   align-items:center;
+  gap:10px;
   margin-bottom:10px;
-}
-
-.badge {
-  background:#f1ddc9;
-  color:var(--accent-dark);
-  border-radius:999px;
-  padding:5px 10px;
-  font-size:13px;
-  font-weight:900;
-  white-space:nowrap;
 }
 
 .history-phrase {
@@ -274,10 +327,10 @@ button.danger {
 }
 
 .tiny-btn {
+  padding:9px 10px;
   font-size:13px;
-  padding:8px 10px;
-  margin-top:8px;
   border-radius:12px;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -285,46 +338,59 @@ button.danger {
 <body>
 <main class="app">
 
-<nav class="tabs">
-  <button class="tab active" onclick="showPage('calc')" id="tabCalc">
-    <svg viewBox="0 0 24 24"><path d="M6 3h12v3c0 1.7-.9 3.2-2.2 4 1.9 1.1 3.2 3.2 3.2 5.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5c0-2.3 1.3-4.4 3.2-5.5A4.8 4.8 0 0 1 6 6V3Zm2 2v1c0 1.7 1.3 3 3 3h2c1.7 0 3-1.3 3-3V5H8Zm2.5 6A3.5 3.5 0 0 0 7 14.5V16a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3Z"/></svg>
+<nav class="top-nav">
+  <button class="nav-btn active" onclick="showPage('calc')" id="tabCalc">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 3h12v3c0 1.7-.9 3.2-2.2 4 1.9 1.1 3.2 3.2 3.2 5.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5c0-2.3 1.3-4.4 3.2-5.5A4.8 4.8 0 0 1 6 6V3Z"/></svg>
+    </span>
+    Calcul
   </button>
-  <button class="tab" onclick="showPage('clays')" id="tabClays">
-    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/></svg>
+
+  <button class="nav-btn" onclick="showPage('clays')" id="tabClays">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/></svg>
+    </span>
+    Terres
   </button>
-  <button class="tab" onclick="showPage('history')" id="tabHistory">
-    <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 1-8.5 6H2l3.3-3.3L8.6 9H6.6A7 7 0 1 0 13 5V3Zm-1 5h2v5l4 2-.9 1.6-5.1-3V8Z"/></svg>
+
+  <button class="nav-btn" onclick="showPage('history')" id="tabHistory">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 1-8.5 6H2l3.3-3.3L8.6 9H6.6A7 7 0 1 0 13 5V3Zm-1 5h2v5l4 2-.9 1.6-5.1-3V8Z"/></svg>
+    </span>
+    Historique
   </button>
 </nav>
 
-<section id="pageCalc" class="card">
+<section id="pageCalc">
   <div class="mode">
     <button id="modeFreshToFinal" class="active">Fraîche → 🏁 finale</button>
     <button id="modeFinalToFresh">🏁 finale → fraîche</button>
   </div>
 
-  <label>Terre</label>
-  <select id="claySelect"></select>
+  <div class="card">
+    <label>Terre</label>
+    <select id="claySelect"></select>
 
-  <div class="clay-info" id="clayInfo">Retrait : 12 %</div>
+    <div class="path" id="pathInfo">
+      <div class="path-pill">🏺 Fraîche</div>
+      <div class="path-arrow">→</div>
+      <div class="path-pill">🏁 Finale</div>
+    </div>
 
-  <div class="path" id="pathInfo">
-    <span>Fraîche</span> → <span>🏁 Finale</span>
+    <label id="sizeLabel">Taille fraîche</label>
+    <div class="input-wrap">
+      <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14">
+      <span class="input-unit">cm</span>
+    </div>
+
+    <button class="main-btn" onclick="calculate()">▣ Calculer</button>
   </div>
-
-  <label id="sizeLabel">Taille fraîche</label>
-  <div class="input-wrap">
-    <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14">
-    <span class="input-unit">cm</span>
-  </div>
-
-  <button onclick="calculate()">Calculer</button>
 
   <div class="result" id="result">
     <div class="big">— <span class="unit">cm</span></div>
   </div>
 
-  <button class="secondary" onclick="saveHistory()">Enregistrer dans l’historique</button>
+  <button class="secondary" onclick="saveHistory()">♡ Enregistrer dans l’historique</button>
 </section>
 
 <section id="pageClays" class="card hidden">
@@ -339,7 +405,7 @@ button.danger {
     <span class="input-unit">%</span>
   </div>
 
-  <button onclick="saveClay()">Ajouter / enregistrer</button>
+  <button class="main-btn" onclick="saveClay()">Ajouter / enregistrer</button>
   <div id="clayList"></div>
 </section>
 
@@ -358,10 +424,13 @@ let lastCalculation = null;
 const defaultClays = [{ name: "Terre standard", shrink: 12 }];
 
 function showPage(page) {
-  ["calc", "clays", "history"].forEach(p => {
-    document.getElementById("page" + p[0].toUpperCase() + p.slice(1)).classList.toggle("hidden", page !== p);
-    document.getElementById("tab" + p[0].toUpperCase() + p.slice(1)).classList.toggle("active", page === p);
-  });
+  document.getElementById("pageCalc").classList.toggle("hidden", page !== "calc");
+  document.getElementById("pageClays").classList.toggle("hidden", page !== "clays");
+  document.getElementById("pageHistory").classList.toggle("hidden", page !== "history");
+
+  document.getElementById("tabCalc").classList.toggle("active", page === "calc");
+  document.getElementById("tabClays").classList.toggle("active", page === "clays");
+  document.getElementById("tabHistory").classList.toggle("active", page === "history");
 }
 
 function getClays() {
@@ -385,11 +454,6 @@ function getSelectedClay() {
   return clays[document.getElementById("claySelect").value] || clays[0];
 }
 
-function updateClayInfo() {
-  const clay = getSelectedClay();
-  document.getElementById("clayInfo").textContent = `Retrait : ${clay.shrink} %`;
-}
-
 function renderClays() {
   const clays = getClays();
   const select = document.getElementById("claySelect");
@@ -408,11 +472,7 @@ function renderClays() {
       </div>
     `;
   });
-
-  updateClayInfo();
 }
-
-document.getElementById("claySelect").addEventListener("change", updateClayInfo);
 
 function saveClay() {
   const name = document.getElementById("newClayName").value.trim();
@@ -454,10 +514,11 @@ function setMode(newMode) {
 
   document.getElementById("pathInfo").innerHTML =
     mode === "freshToFinal"
-      ? `<span>Fraîche</span> → <span>🏁 Finale</span>`
-      : `<span>🏁 Finale voulue</span> → <span>Fraîche à faire</span>`;
+      ? `<div class="path-pill">🏺 Fraîche</div><div class="path-arrow">→</div><div class="path-pill">🏁 Finale</div>`
+      : `<div class="path-pill">🏁 Finale</div><div class="path-arrow">→</div><div class="path-pill">🏺 Fraîche</div>`;
 
-  document.getElementById("result").innerHTML = `<div class="big">— <span class="unit">cm</span></div>`;
+  document.getElementById("result").innerHTML =
+    `<div class="big">— <span class="unit">cm</span></div>`;
 }
 
 document.getElementById("modeFreshToFinal").onclick = () => setMode("freshToFinal");
@@ -475,7 +536,7 @@ function calculate() {
 
   const factor = 1 - shrink / 100;
   const result = Math.round((mode === "freshToFinal" ? size * factor : size / factor) * 100) / 100;
-  const label = mode === "freshToFinal" ? "🏁 Taille finale estimée" : "Taille fraîche à faire";
+  const label = mode === "freshToFinal" ? "✨ Taille finale estimée" : "🏺 Taille fraîche à faire";
 
   document.getElementById("result").innerHTML = `
     <div class="result-label">${label}</div>
