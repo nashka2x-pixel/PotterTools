@@ -1,641 +1,547 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PotterTools</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PotterTools</title>
 
-  <style>
-    :root {
-  --bg: #f4eadf;
-  --bg-speck: #eadccf;
-
-  --card: #fffaf4;
-  --card2: #f1e3d3;
-
-  --line: #e1cfbd;
-
-  --text: #2d2118;
-  --muted: #7b6657;
-
-  --green: #b86f45;
-  --green2: #c9865c;
-  --green-dark: #8f5130;
-
-  --danger: #a14f42;
-
-  --cream: #ffffff;
+<style>
+:root {
+  --bg:#f4eadf;
+  --card:#fffaf4;
+  --card2:#f1e3d3;
+  --line:#e1cfbd;
+  --text:#2d2118;
+  --muted:#7b6657;
+  --accent:#b86f45;
+  --accent-dark:#8f5130;
+  --danger:#a14f42;
+  --white:#ffffff;
 }
 
-    * { box-sizing: border-box; }
+* { box-sizing:border-box; }
 
-    body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+body {
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
     radial-gradient(circle at 20% 20%, rgba(120,90,60,.06) 1px, transparent 1px),
     radial-gradient(circle at 80% 60%, rgba(120,90,60,.05) 1px, transparent 1px),
     var(--bg);
-  background-size: 18px 18px;
-  color: var(--text);
-  padding: 14px;
+  background-size:18px 18px;
+  color:var(--text);
+  padding:14px;
 }
 
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
+.app {
+  max-width:430px;
+  margin:0 auto;
+  padding-bottom:30px;
+}
 
-    .tab {
-      height: 64px;
-      padding: 0;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: var(--card);
-      box-shadow: 0 8px 20px rgba(60, 70, 60, .12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.tabs {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:14px;
+}
 
-    .tab svg {
-      width: 32px;
-      height: 32px;
-      fill: var(--green-dark);
-    }
+.tab {
+  height:62px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:var(--card);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 20px rgba(70,45,25,.08);
+}
 
-    .tab.active {
-      background: var(--green);
-    }
+.tab svg {
+  width:31px;
+  height:31px;
+  fill:var(--accent-dark);
+}
 
-    .tab.active svg {
-      fill: white;
-    }
+.tab.active {
+  background:var(--accent);
+}
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 24px rgba(60, 70, 60, .13);
-    }
+.tab.active svg {
+  fill:white;
+}
 
-    h2 {
-      margin-top: 0;
-      font-size: 22px;
-    }
+.card {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:26px;
+  padding:18px;
+  box-shadow:0 10px 24px rgba(70,45,25,.10);
+}
 
-    label {
-      display: block;
-      font-weight: 800;
-      margin: 14px 0 6px;
-      color: var(--text);
-    }
+.hidden { display:none; }
 
-    input, select, button {
-      width: 100%;
-      font-size: 18px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      padding: 14px;
-      background: var(--cream);
-      color: var(--text);
-    }
+h2 {
+  margin:0 0 14px;
+  font-size:22px;
+}
 
-    input::placeholder {
-      color: #99a093;
-    }
+label {
+  display:block;
+  margin:14px 0 6px;
+  font-weight:800;
+}
 
-    button {
-      border: none;
-      background: var(--green);
-      color: white;
-      font-weight: 900;
-      margin-top: 14px;
-      cursor: pointer;
-      box-shadow: 0 6px 14px rgba(95, 118, 86, .2);
-    }
+input, select, button {
+  width:100%;
+  font-size:18px;
+  border-radius:16px;
+  padding:14px;
+  border:1px solid var(--line);
+  background:var(--white);
+  color:var(--text);
+}
 
-    button.secondary {
-      background: var(--card2);
-      color: var(--text);
-      box-shadow: none;
-    }
+button {
+  border:none;
+  background:var(--accent);
+  color:white;
+  font-weight:900;
+  margin-top:14px;
+  cursor:pointer;
+}
 
-    button.danger {
-      background: var(--danger);
-      color: white;
-    }
+button.secondary {
+  background:var(--card2);
+  color:var(--text);
+}
 
-    .mode {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
+button.danger {
+  background:var(--danger);
+}
 
-    .mode button {
-      margin: 0;
-      font-size: 15px;
-      padding: 12px;
-      background: var(--card2);
-      color: var(--muted);
-      box-shadow: none;
-    }
+.mode {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:16px;
+}
 
-    .mode button.active {
-      background: var(--green);
-      color: white;
-    }
+.mode button {
+  margin:0;
+  padding:12px;
+  font-size:15px;
+  background:var(--card2);
+  color:var(--muted);
+}
 
-    .clay-info {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      background: var(--card2);
-      color: var(--muted);
-      font-weight: 800;
-      text-align: center;
-    }
+.mode button.active {
+  background:var(--accent);
+  color:white;
+}
 
-    .input-wrap {
-      position: relative;
-    }
+.clay-info, .path span {
+  background:var(--card2);
+  color:var(--muted);
+  font-weight:800;
+}
 
-    .input-wrap input {
-      padding-right: 58px;
-    }
+.clay-info {
+  margin-top:10px;
+  padding:12px;
+  border-radius:16px;
+  text-align:center;
+}
 
-    .input-unit {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: 900;
-      color: var(--muted);
-    }
+.path {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:16px 0 4px;
+  color:var(--muted);
+  font-weight:900;
+}
 
-    .path {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 16px 0 4px;
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 15px;
-    }
+.path span {
+  padding:8px 10px;
+  border-radius:999px;
+}
 
-    .path span {
-      background: var(--card2);
-      padding: 8px 10px;
-      border-radius: 999px;
-    }
-    
+.input-wrap {
+  position:relative;
+}
+
+.input-wrap input {
+  padding-right:58px;
+}
+
+.input-unit {
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
+  font-weight:900;
+}
+
 .result {
-  min-height: 150px;
-  padding: 24px;
-  background: #f4e5d6;
-  border: 1px solid #e2cdb8;
-  border-radius: 22px;
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  min-height:150px;
+  margin-top:16px;
+  padding:24px;
+  background:#f4e5d6;
+  border:1px solid #e2cdb8;
+  border-radius:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-    .result-label {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 8px;
-      font-weight: 800;
-    }
-
-    .result .big {
-      font-size: 46px;
-      font-weight: 950;
-      color: var(--green-dark);
-      line-height: 1;
-    }
-
-    .unit {
-      font-size: 24px;
-      font-weight: 900;
-    }
-
-    .small {
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .clay-item {
-      background: var(--cream);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 15px;
-    }
-
-    .clay-item strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 4px;
-      color: var(--text);
-    }
-
-    .history-item {
-      background: var(--cream);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 14px;
-      margin-top: 10px;
-    }
-
-    .history-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-
-    .history-clay {
-      font-weight: 950;
-      font-size: 16px;
-      color: var(--text);
-    }
-
-    .badge {
-  background: #f1ddc9;
-  color: #8f5130;
-  border-radius: 999px;
-  padding: 5px 10px;
-  font-size: 13px;
-  font-weight: 900;
-  white-space: nowrap;
+.result-label {
+  color:var(--muted);
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:8px;
 }
 
-    .history-phrase {
-      font-size: 16px;
-      line-height: 1.55;
-      color: var(--text);
-      margin: 8px 0;
-    }
+.big {
+  color:var(--accent-dark);
+  font-size:46px;
+  font-weight:950;
+  line-height:1;
+}
 
-    .history-phrase strong {
-      color: var(--green-dark);
-      font-size: 18px;
-    }
+.unit {
+  font-size:24px;
+  font-weight:900;
+}
 
-    .history-date {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 8px;
-    }
+.small {
+  color:var(--muted);
+  font-size:14px;
+  margin-top:8px;
+}
 
-    .tiny-btn {
-      font-size: 13px;
-      padding: 8px 10px;
-      margin-top: 8px;
-      border-radius: 12px;
-      box-shadow: none;
-    }
-  </style>
+.clay-item, .history-item {
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  margin-top:10px;
+}
+
+.clay-item strong,
+.history-clay {
+  font-weight:950;
+  font-size:16px;
+}
+
+.history-top {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.badge {
+  background:#f1ddc9;
+  color:var(--accent-dark);
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:13px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.history-phrase {
+  font-size:16px;
+  line-height:1.55;
+}
+
+.history-phrase strong {
+  color:var(--accent-dark);
+  font-size:18px;
+}
+
+.history-date {
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.tiny-btn {
+  font-size:13px;
+  padding:8px 10px;
+  margin-top:8px;
+  border-radius:12px;
+}
+</style>
 </head>
 
 <body>
-  <main class="app">
+<main class="app">
 
-    <nav class="tabs">
-      <button class="tab active" onclick="showPage('calc')" id="tabCalc" aria-label="Calcul">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 3h12v3c0 1.7-.9 3.2-2.2 4 1.9 1.1 3.2 3.2 3.2 5.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5c0-2.3 1.3-4.4 3.2-5.5A4.8 4.8 0 0 1 6 6V3Zm2 2v1c0 1.7 1.3 3 3 3h2c1.7 0 3-1.3 3-3V5H8Zm2.5 6A3.5 3.5 0 0 0 7 14.5V16a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3Z"/>
-        </svg>
-      </button>
+<nav class="tabs">
+  <button class="tab active" onclick="showPage('calc')" id="tabCalc">
+    <svg viewBox="0 0 24 24"><path d="M6 3h12v3c0 1.7-.9 3.2-2.2 4 1.9 1.1 3.2 3.2 3.2 5.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5c0-2.3 1.3-4.4 3.2-5.5A4.8 4.8 0 0 1 6 6V3Zm2 2v1c0 1.7 1.3 3 3 3h2c1.7 0 3-1.3 3-3V5H8Zm2.5 6A3.5 3.5 0 0 0 7 14.5V16a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3Z"/></svg>
+  </button>
+  <button class="tab" onclick="showPage('clays')" id="tabClays">
+    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/></svg>
+  </button>
+  <button class="tab" onclick="showPage('history')" id="tabHistory">
+    <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 1-8.5 6H2l3.3-3.3L8.6 9H6.6A7 7 0 1 0 13 5V3Zm-1 5h2v5l4 2-.9 1.6-5.1-3V8Z"/></svg>
+  </button>
+</nav>
 
-      <button class="tab" onclick="showPage('clays')" id="tabClays" aria-label="Ajouter une terre">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/>
-        </svg>
-      </button>
+<section id="pageCalc" class="card">
+  <div class="mode">
+    <button id="modeFreshToFinal" class="active">Fraîche → 🏁 finale</button>
+    <button id="modeFinalToFresh">🏁 finale → fraîche</button>
+  </div>
 
-      <button class="tab" onclick="showPage('history')" id="tabHistory" aria-label="Historique">
-        <svg viewBox="0 0 24 24">
-          <path d="M13 3a9 9 0 1 1-8.5 6H2l3.3-3.3L8.6 9H6.6A7 7 0 1 0 13 5V3Zm-1 5h2v5l4 2-.9 1.6-5.1-3V8Z"/>
-        </svg>
-      </button>
-    </nav>
+  <label>Terre</label>
+  <select id="claySelect"></select>
 
-    <section id="pageCalc" class="card">
-      <div class="mode">
-        <button id="modeFreshToFinal" class="active">Fraîche → 🏁 finale</button>
-        <button id="modeFinalToFresh">🏁 finale → fraîche</button>
+  <div class="clay-info" id="clayInfo">Retrait : 12 %</div>
+
+  <div class="path" id="pathInfo">
+    <span>Fraîche</span> → <span>🏁 Finale</span>
+  </div>
+
+  <label id="sizeLabel">Taille fraîche</label>
+  <div class="input-wrap">
+    <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14">
+    <span class="input-unit">cm</span>
+  </div>
+
+  <button onclick="calculate()">Calculer</button>
+
+  <div class="result" id="result">
+    <div class="big">— <span class="unit">cm</span></div>
+  </div>
+
+  <button class="secondary" onclick="saveHistory()">Enregistrer dans l’historique</button>
+</section>
+
+<section id="pageClays" class="card hidden">
+  <h2>Mes terres</h2>
+
+  <label>Nom de la terre</label>
+  <input id="newClayName" placeholder="Ex : Grès blanc">
+
+  <label>Retrait</label>
+  <div class="input-wrap">
+    <input id="newClayShrink" type="number" inputmode="decimal" placeholder="Ex : 12">
+    <span class="input-unit">%</span>
+  </div>
+
+  <button onclick="saveClay()">Ajouter / enregistrer</button>
+  <div id="clayList"></div>
+</section>
+
+<section id="pageHistory" class="card hidden">
+  <h2>Historique</h2>
+  <button class="danger" onclick="clearHistory()">Vider l’historique</button>
+  <div id="historyList"></div>
+</section>
+
+</main>
+
+<script>
+let mode = "freshToFinal";
+let lastCalculation = null;
+
+const defaultClays = [{ name: "Terre standard", shrink: 12 }];
+
+function showPage(page) {
+  ["calc", "clays", "history"].forEach(p => {
+    document.getElementById("page" + p[0].toUpperCase() + p.slice(1)).classList.toggle("hidden", page !== p);
+    document.getElementById("tab" + p[0].toUpperCase() + p.slice(1)).classList.toggle("active", page === p);
+  });
+}
+
+function getClays() {
+  return JSON.parse(localStorage.getItem("clays")) || defaultClays;
+}
+
+function setClays(clays) {
+  localStorage.setItem("clays", JSON.stringify(clays));
+}
+
+function getHistory() {
+  return JSON.parse(localStorage.getItem("history")) || [];
+}
+
+function setHistory(history) {
+  localStorage.setItem("history", JSON.stringify(history));
+}
+
+function getSelectedClay() {
+  const clays = getClays();
+  return clays[document.getElementById("claySelect").value] || clays[0];
+}
+
+function updateClayInfo() {
+  const clay = getSelectedClay();
+  document.getElementById("clayInfo").textContent = `Retrait : ${clay.shrink} %`;
+}
+
+function renderClays() {
+  const clays = getClays();
+  const select = document.getElementById("claySelect");
+  const list = document.getElementById("clayList");
+
+  select.innerHTML = "";
+  list.innerHTML = "";
+
+  clays.forEach((clay, index) => {
+    select.innerHTML += `<option value="${index}">${clay.name} — ${clay.shrink}%</option>`;
+    list.innerHTML += `
+      <div class="clay-item">
+        <strong>${clay.name}</strong><br>
+        Retrait : ${clay.shrink} %
+        <button class="tiny-btn danger" onclick="deleteClay(${index})">Supprimer</button>
       </div>
+    `;
+  });
 
-      <label for="claySelect">Terre</label>
-      <select id="claySelect"></select>
+  updateClayInfo();
+}
 
-      <div class="clay-info" id="clayInfo">Retrait : 12 %</div>
+document.getElementById("claySelect").addEventListener("change", updateClayInfo);
 
-      <div class="path" id="pathInfo">
-        <span>Fraîche</span>
-        →
-        <span>🏁 Finale</span>
+function saveClay() {
+  const name = document.getElementById("newClayName").value.trim();
+  const shrink = parseFloat(document.getElementById("newClayShrink").value);
+
+  if (!name || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
+    alert("Entre un nom de terre et un retrait valide.");
+    return;
+  }
+
+  const clays = getClays();
+  const existing = clays.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+
+  if (existing >= 0) clays[existing].shrink = shrink;
+  else clays.push({ name, shrink });
+
+  setClays(clays);
+  document.getElementById("newClayName").value = "";
+  document.getElementById("newClayShrink").value = "";
+  renderClays();
+  showPage("calc");
+}
+
+function deleteClay(index) {
+  const clays = getClays();
+  clays.splice(index, 1);
+  setClays(clays.length ? clays : defaultClays);
+  renderClays();
+}
+
+function setMode(newMode) {
+  mode = newMode;
+
+  document.getElementById("modeFreshToFinal").classList.toggle("active", mode === "freshToFinal");
+  document.getElementById("modeFinalToFresh").classList.toggle("active", mode === "finalToFresh");
+
+  document.getElementById("sizeLabel").textContent =
+    mode === "freshToFinal" ? "Taille fraîche" : "Taille finale voulue";
+
+  document.getElementById("pathInfo").innerHTML =
+    mode === "freshToFinal"
+      ? `<span>Fraîche</span> → <span>🏁 Finale</span>`
+      : `<span>🏁 Finale voulue</span> → <span>Fraîche à faire</span>`;
+
+  document.getElementById("result").innerHTML = `<div class="big">— <span class="unit">cm</span></div>`;
+}
+
+document.getElementById("modeFreshToFinal").onclick = () => setMode("freshToFinal");
+document.getElementById("modeFinalToFresh").onclick = () => setMode("finalToFresh");
+
+function calculate() {
+  const size = parseFloat(document.getElementById("sizeInput").value);
+  const clay = getSelectedClay();
+  const shrink = clay.shrink;
+
+  if (isNaN(size)) {
+    alert("Entre une taille valide.");
+    return;
+  }
+
+  const factor = 1 - shrink / 100;
+  const result = Math.round((mode === "freshToFinal" ? size * factor : size / factor) * 100) / 100;
+  const label = mode === "freshToFinal" ? "🏁 Taille finale estimée" : "Taille fraîche à faire";
+
+  document.getElementById("result").innerHTML = `
+    <div class="result-label">${label}</div>
+    <div class="big">${result} <span class="unit">cm</span></div>
+    <div class="small">${clay.name} · retrait ${shrink} %</div>
+  `;
+
+  lastCalculation = {
+    clay: clay.name,
+    shrink,
+    mode,
+    input: size,
+    result,
+    date: new Date().toLocaleString("fr-FR")
+  };
+}
+
+function saveHistory() {
+  if (!lastCalculation) {
+    alert("Fais d’abord un calcul.");
+    return;
+  }
+
+  const history = getHistory();
+  history.unshift(lastCalculation);
+  setHistory(history.slice(0, 30));
+  renderHistory();
+  showPage("history");
+}
+
+function renderHistory() {
+  const history = getHistory();
+  const list = document.getElementById("historyList");
+
+  if (!history.length) {
+    list.innerHTML = `<p class="small">Aucun calcul enregistré.</p>`;
+    return;
+  }
+
+  list.innerHTML = history.map(item => {
+    const phrase = item.mode === "freshToFinal"
+      ? `Taille fraîche <strong>${item.input} cm</strong><br>→ 🏁 Taille finale estimée <strong>${item.result} cm</strong>`
+      : `🏁 Taille finale voulue <strong>${item.input} cm</strong><br>→ Taille fraîche à faire <strong>${item.result} cm</strong>`;
+
+    return `
+      <div class="history-item">
+        <div class="history-top">
+          <div class="history-clay">${item.clay}</div>
+          <div class="badge">${item.shrink} %</div>
+        </div>
+        <div class="history-phrase">${phrase}</div>
+        <div class="history-date">${item.date}</div>
       </div>
+    `;
+  }).join("");
+}
 
-      <label id="sizeLabel" for="sizeInput">Taille fraîche</label>
-      <div class="input-wrap">
-        <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14" />
-        <span class="input-unit">cm</span>
-      </div>
-
-      <button onclick="calculate()">Calculer</button>
-
-      <div class="result" id="result">
-        <div class="big">— <span class="unit">cm</span></div>
-      </div>
-
-      <button class="secondary" onclick="saveHistory()">Enregistrer dans l’historique</button>
-    </section>
-
-    <section id="pageClays" class="card hidden">
-      <h2>Mes terres</h2>
-
-      <label for="newClayName">Nom de la terre</label>
-      <input id="newClayName" placeholder="Ex : Grès blanc" />
-
-      <label for="newClayShrink">Retrait</label>
-      <div class="input-wrap">
-        <input id="newClayShrink" type="number" inputmode="decimal" placeholder="Ex : 12" />
-        <span class="input-unit">%</span>
-      </div>
-
-      <button onclick="saveClay()">Ajouter / enregistrer</button>
-
-      <div id="clayList"></div>
-    </section>
-
-    <section id="pageHistory" class="card hidden">
-      <h2>Historique</h2>
-      <button class="danger" onclick="clearHistory()">Vider l’historique</button>
-      <div id="historyList"></div>
-    </section>
-
-  </main>
-
-  <script>
-    let mode = "freshToFinal";
-    let lastCalculation = null;
-
-    const defaultClays = [
-      { name: "Terre standard", shrink: 12 }
-    ];
-
-    function showPage(page) {
-      document.getElementById("pageCalc").classList.toggle("hidden", page !== "calc");
-      document.getElementById("pageClays").classList.toggle("hidden", page !== "clays");
-      document.getElementById("pageHistory").classList.toggle("hidden", page !== "history");
-
-      document.getElementById("tabCalc").classList.toggle("active", page === "calc");
-      document.getElementById("tabClays").classList.toggle("active", page === "clays");
-      document.getElementById("tabHistory").classList.toggle("active", page === "history");
-    }
-
-    function getClays() {
-      return JSON.parse(localStorage.getItem("clays")) || defaultClays;
-    }
-
-    function setClays(clays) {
-      localStorage.setItem("clays", JSON.stringify(clays));
-    }
-
-    function getHistory() {
-      return JSON.parse(localStorage.getItem("history")) || [];
-    }
-
-    function setHistory(history) {
-      localStorage.setItem("history", JSON.stringify(history));
-    }
-
-    function getSelectedClay() {
-      const clays = getClays();
-      const selectedIndex = document.getElementById("claySelect").value;
-      return clays[selectedIndex] || clays[0];
-    }
-
-    function updateClayInfo() {
-      const clay = getSelectedClay();
-      if (clay) {
-        document.getElementById("clayInfo").textContent = `Retrait : ${clay.shrink} %`;
-      }
-    }
-
-    function renderClays() {
-      const clays = getClays();
-      const select = document.getElementById("claySelect");
-      const list = document.getElementById("clayList");
-
-      select.innerHTML = "";
-      list.innerHTML = "";
-
-      clays.forEach((clay, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = `${clay.name} — ${clay.shrink}%`;
-        select.appendChild(option);
-
-        const div = document.createElement("div");
-        div.className = "clay-item";
-        div.innerHTML = `
-          <strong>${clay.name}</strong>
-          Retrait : ${clay.shrink} %
-          <button class="tiny-btn danger" onclick="deleteClay(${index})">Supprimer</button>
-        `;
-        list.appendChild(div);
-      });
-
-      updateClayInfo();
-    }
-
-    document.getElementById("claySelect").addEventListener("change", function() {
-      updateClayInfo();
-    });
-
-    function saveClay() {
-      const name = document.getElementById("newClayName").value.trim();
-      const shrink = parseFloat(document.getElementById("newClayShrink").value);
-
-      if (!name || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
-        alert("Entre un nom de terre et un retrait valide.");
-        return;
-      }
-
-      const clays = getClays();
-      const existing = clays.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
-
-      if (existing >= 0) {
-        clays[existing].shrink = shrink;
-      } else {
-        clays.push({ name, shrink });
-      }
-
-      setClays(clays);
-
-      document.getElementById("newClayName").value = "";
-      document.getElementById("newClayShrink").value = "";
-
-      renderClays();
-      showPage("calc");
-    }
-
-    function deleteClay(index) {
-      const clays = getClays();
-      clays.splice(index, 1);
-      setClays(clays.length ? clays : defaultClays);
-      renderClays();
-    }
-
-    function setMode(newMode) {
-      mode = newMode;
-
-      document.getElementById("modeFreshToFinal").classList.toggle("active", mode === "freshToFinal");
-      document.getElementById("modeFinalToFresh").classList.toggle("active", mode === "finalToFresh");
-
-      document.getElementById("sizeLabel").textContent =
-        mode === "freshToFinal" ? "Taille fraîche" : "Taille finale voulue";
-
-      document.getElementById("pathInfo").innerHTML =
-        mode === "freshToFinal"
-          ? `<span>Fraîche</span> → <span>🏁 Finale</span>`
-          : `<span>🏁 Finale voulue</span> → <span>Fraîche à faire</span>`;
-
-      document.getElementById("result").innerHTML = `
-        <div class="big">— <span class="unit">cm</span></div>
-      `;
-    }
-
-    document.getElementById("modeFreshToFinal").onclick = () => setMode("freshToFinal");
-    document.getElementById("modeFinalToFresh").onclick = () => setMode("finalToFresh");
-
-    function calculate() {
-      const size = parseFloat(document.getElementById("sizeInput").value);
-      const clay = getSelectedClay();
-      const shrink = clay.shrink;
-
-      if (isNaN(size) || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
-        alert("Choisis une terre et entre une taille valide.");
-        return;
-      }
-
-      const factor = 1 - shrink / 100;
-      let result;
-      let label;
-
-      if (mode === "freshToFinal") {
-        result = size * factor;
-        label = "🏁 Taille finale estimée";
-      } else {
-        result = size / factor;
-        label = "Taille fraîche à faire";
-      }
-
-      result = Math.round(result * 100) / 100;
-
-      document.getElementById("result").innerHTML = `
-        <div class="result-label">${label}</div>
-        <div class="big">${result} <span class="unit">cm</span></div>
-        <div class="small">${clay.name} · retrait ${shrink} %</div>
-      `;
-
-      lastCalculation = {
-        clay: clay.name,
-        shrink,
-        mode,
-        input: size,
-        result,
-        date: new Date().toLocaleString("fr-FR")
-      };
-    }
-
-    function saveHistory() {
-      if (!lastCalculation) {
-        alert("Fais d’abord un calcul.");
-        return;
-      }
-
-      const history = getHistory();
-      history.unshift(lastCalculation);
-      setHistory(history.slice(0, 30));
-      renderHistory();
-      showPage("history");
-    }
-
-    function renderHistory() {
-      const history = getHistory();
-      const list = document.getElementById("historyList");
-
-      if (history.length === 0) {
-        list.innerHTML = `<p class="small">Aucun calcul enregistré.</p>`;
-        return;
-      }
-
-      list.innerHTML = "";
-
-      history.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-
-        let phrase = "";
-
-        if (item.mode === "freshToFinal") {
-          phrase = `
-            Taille fraîche <strong>${item.input} cm</strong><br>
-            → 🏁 Taille finale estimée <strong>${item.result} cm</strong>
-          `;
-        } else {
-          phrase = `
-            🏁 Taille finale voulue <strong>${item.input} cm</strong><br>
-            → Taille fraîche à faire <strong>${item.result} cm</strong>
-          `;
-        }
-
-        div.innerHTML = `
-          <div class="history-top">
-            <div class="history-clay">${item.clay}</div>
-            <div class="badge">${item.shrink} %</div>
-          </div>
-
-          <div class="history-phrase">
-            ${phrase}
-          </div>
-
-          <div class="history-date">${item.date}</div>
-        `;
-
-        list.appendChild(div);
-      });
-    }
-
-    function clearHistory() {
-      if (confirm("Vider tout l’historique ?")) {
-        localStorage.removeItem("history");
-        renderHistory();
-      }
-    }
-
-    renderClays();
+function clearHistory() {
+  if (confirm("Vider tout l’historique ?")) {
+    localStorage.removeItem("history");
     renderHistory();
-  </script>
+  }
+}
+
+renderClays();
+renderHistory();
+</script>
 </body>
 </html>
