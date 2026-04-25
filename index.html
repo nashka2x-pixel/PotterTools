@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calcul retrait poterie</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4eadf;
+      color: #2d2118;
+      padding: 18px;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 8px 0 4px;
+    }
+
+    .subtitle {
+      color: #7b6657;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #fffaf4;
+      border: 1px solid #ead9c8;
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(70, 45, 25, 0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 14px 0 6px;
+    }
+
+    input, select, button {
+      width: 100%;
+      font-size: 18px;
+      border-radius: 14px;
+      border: 1px solid #d9c4b2;
+      padding: 14px;
+      background: white;
+    }
+
+    button {
+      border: none;
+      background: #b86f45;
+      color: white;
+      font-weight: 800;
+      margin-top: 14px;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #ead9c8;
+      color: #2d2118;
+    }
+
+    button.danger {
+      background: #8f3f2f;
+    }
+
+    .mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0 16px;
+    }
+
+    .mode button {
+      margin: 0;
+      font-size: 15px;
+      padding: 12px;
+      background: #ead9c8;
+      color: #2d2118;
+    }
+
+    .mode button.active {
+      background: #b86f45;
+      color: white;
+    }
+
+    .result {
+      text-align: center;
+      padding: 20px;
+      background: #f1dfcd;
+      border-radius: 18px;
+      margin-top: 16px;
+    }
+
+    .result .big {
+      font-size: 38px;
+      font-weight: 900;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #7b6657;
+      margin-top: 4px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .row button {
+      width: auto;
+      min-width: 58px;
+    }
+
+    .history-item, .clay-item {
+      background: #fff;
+      border: 1px solid #ead9c8;
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    .history-item strong, .clay-item strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .tiny-btn {
+      font-size: 13px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1>Retrait poterie</h1>
+    <div class="subtitle">Calcule vite la taille fraîche ou finale selon ta terre.</div>
+
+    <section class="card">
+      <div class="mode">
+        <button id="modeFreshToFinal" class="active">Fraîche → finale</button>
+        <button id="modeFinalToFresh">Finale → fraîche</button>
+      </div>
+
+      <label for="claySelect">Terre</label>
+      <select id="claySelect"></select>
+
+      <label id="sizeLabel" for="sizeInput">Taille fraîche</label>
+      <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14" />
+
+      <label for="shrinkInput">Taux de retrait (%)</label>
+      <input id="shrinkInput" type="number" inputmode="decimal" placeholder="Ex : 12" />
+
+      <button onclick="calculate()">Calculer</button>
+
+      <div class="result" id="result">
+        <div class="small">Résultat</div>
+        <div class="big">—</div>
+      </div>
+
+      <button class="secondary" onclick="saveHistory()">Enregistrer dans l’historique</button>
+    </section>
+
+    <section class="card">
+      <h2>Mes terres</h2>
+
+      <label for="newClayName">Nom de la terre</label>
+      <input id="newClayName" placeholder="Ex : Grès blanc" />
+
+      <label for="newClayShrink">Retrait (%)</label>
+      <input id="newClayShrink" type="number" inputmode="decimal" placeholder="Ex : 12" />
+
+      <button onclick="saveClay()">Ajouter / enregistrer la terre</button>
+
+      <div id="clayList"></div>
+    </section>
+
+    <section class="card">
+      <h2>Historique</h2>
+      <button class="danger" onclick="clearHistory()">Vider l’historique</button>
+      <div id="historyList"></div>
+    </section>
+  </main>
+
+  <script>
+    let mode = "freshToFinal";
+    let lastCalculation = null;
+
+    const defaultClays = [
+      { name: "Terre standard", shrink: 12 }
+    ];
+
+    function getClays() {
+      return JSON.parse(localStorage.getItem("clays")) || defaultClays;
+    }
+
+    function setClays(clays) {
+      localStorage.setItem("clays", JSON.stringify(clays));
+    }
+
+    function getHistory() {
+      return JSON.parse(localStorage.getItem("history")) || [];
+    }
+
+    function setHistory(history) {
+      localStorage.setItem("history", JSON.stringify(history));
+    }
+
+    function renderClays() {
+      const clays = getClays();
+      const select = document.getElementById("claySelect");
+      const list = document.getElementById("clayList");
+
+      select.innerHTML = "";
+      list.innerHTML = "";
+
+      clays.forEach((clay, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${clay.name} — ${clay.shrink}%`;
+        select.appendChild(option);
+
+        const div = document.createElement("div");
+        div.className = "clay-item";
+        div.innerHTML = `
+          <strong>${clay.name}</strong>
+          Retrait : ${clay.shrink}%
+          <button class="tiny-btn danger" onclick="deleteClay(${index})">Supprimer</button>
+        `;
+        list.appendChild(div);
+      });
+
+      if (clays.length > 0) {
+        document.getElementById("shrinkInput").value = clays[0].shrink;
+      }
+    }
+
+    document.getElementById("claySelect").addEventListener("change", function() {
+      const clays = getClays();
+      const clay = clays[this.value];
+      if (clay) {
+        document.getElementById("shrinkInput").value = clay.shrink;
+      }
+    });
+
+    function saveClay() {
+      const name = document.getElementById("newClayName").value.trim();
+      const shrink = parseFloat(document.getElementById("newClayShrink").value);
+
+      if (!name || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
+        alert("Entre un nom de terre et un retrait valide.");
+        return;
+      }
+
+      const clays = getClays();
+      const existing = clays.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+
+      if (existing >= 0) {
+        clays[existing].shrink = shrink;
+      } else {
+        clays.push({ name, shrink });
+      }
+
+      setClays(clays);
+      document.getElementById("newClayName").value = "";
+      document.getElementById("newClayShrink").value = "";
+      renderClays();
+    }
+
+    function deleteClay(index) {
+      const clays = getClays();
+      clays.splice(index, 1);
+      setClays(clays.length ? clays : defaultClays);
+      renderClays();
+    }
+
+    function setMode(newMode) {
+      mode = newMode;
+
+      document.getElementById("modeFreshToFinal").classList.toggle("active", mode === "freshToFinal");
+      document.getElementById("modeFinalToFresh").classList.toggle("active", mode === "finalToFresh");
+
+      document.getElementById("sizeLabel").textContent =
+        mode === "freshToFinal" ? "Taille fraîche" : "Taille finale voulue";
+
+      document.getElementById("result").innerHTML = `
+        <div class="small">Résultat</div>
+        <div class="big">—</div>
+      `;
+    }
+
+    document.getElementById("modeFreshToFinal").onclick = () => setMode("freshToFinal");
+    document.getElementById("modeFinalToFresh").onclick = () => setMode("finalToFresh");
+
+    function calculate() {
+      const size = parseFloat(document.getElementById("sizeInput").value);
+      const shrink = parseFloat(document.getElementById("shrinkInput").value);
+      const clays = getClays();
+      const clay = clays[document.getElementById("claySelect").value];
+
+      if (isNaN(size) || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
+        alert("Entre une taille et un taux de retrait valide.");
+        return;
+      }
+
+      const factor = 1 - shrink / 100;
+      let result;
+      let label;
+
+      if (mode === "freshToFinal") {
+        result = size * factor;
+        label = "Taille finale estimée";
+      } else {
+        result = size / factor;
+        label = "Taille fraîche à faire";
+      }
+
+      result = Math.round(result * 100) / 100;
+
+      document.getElementById("result").innerHTML = `
+        <div class="small">${label}</div>
+        <div class="big">${result}</div>
+        <div class="small">avec ${shrink}% de retrait</div>
+      `;
+
+      lastCalculation = {
+        clay: clay ? clay.name : "Terre inconnue",
+        shrink,
+        mode,
+        input: size,
+        result,
+        date: new Date().toLocaleString("fr-FR")
+      };
+    }
+
+    function saveHistory() {
+      if (!lastCalculation) {
+        alert("Fais d’abord un calcul.");
+        return;
+      }
+
+      const history = getHistory();
+      history.unshift(lastCalculation);
+      setHistory(history.slice(0, 30));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const history = getHistory();
+      const list = document.getElementById("historyList");
+
+      if (history.length === 0) {
+        list.innerHTML = `<p class="small">Aucun calcul enregistré.</p>`;
+        return;
+      }
+
+      list.innerHTML = "";
+
+      history.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
+
+        const modeText = item.mode === "freshToFinal"
+          ? "Fraîche → finale"
+          : "Finale → fraîche";
+
+        div.innerHTML = `
+          <strong>${item.clay}</strong>
+          ${modeText}<br>
+          Entrée : ${item.input}<br>
+          Résultat : ${item.result}<br>
+          Retrait : ${item.shrink}%<br>
+          <span class="small">${item.date}</span>
+        `;
+
+        list.appendChild(div);
+      });
+    }
+
+    function clearHistory() {
+      if (confirm("Vider tout l’historique ?")) {
+        localStorage.removeItem("history");
+        renderHistory();
+      }
+    }
+
+    renderClays();
+    renderHistory();
+  </script>
+</body>
+</html>
