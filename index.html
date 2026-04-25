@@ -6,13 +6,29 @@
   <title>PotterTools</title>
 
   <style>
+    :root {
+      --bg: #2a2d2a;
+      --card: #353936;
+      --card2: #404540;
+      --line: #51574f;
+      --text: #f3f2ec;
+      --muted: #b8beb4;
+      --green: #6f8a63;
+      --green2: #89a17c;
+      --danger: #9b5d56;
+    }
+
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4eadf;
-      color: #2d2118;
+      background:
+        radial-gradient(circle at 20% 20%, #303430 1px, transparent 1px),
+        radial-gradient(circle at 80% 60%, #2f332f 1px, transparent 1px),
+        var(--bg);
+      background-size: 18px 18px;
+      color: var(--text);
       padding: 14px;
     }
 
@@ -33,9 +49,9 @@
       height: 64px;
       padding: 0;
       border-radius: 20px;
-      border: 1px solid #ead9c8;
-      background: #fffaf4;
-      box-shadow: 0 6px 18px rgba(70, 45, 25, 0.07);
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -44,11 +60,11 @@
     .tab svg {
       width: 32px;
       height: 32px;
-      fill: #8f5130;
+      fill: var(--green2);
     }
 
     .tab.active {
-      background: #b86f45;
+      background: var(--green);
     }
 
     .tab.active svg {
@@ -56,12 +72,12 @@
     }
 
     .card {
-      background: #fffaf4;
-      border: 1px solid #ead9c8;
+      background: var(--card);
+      border: 1px solid var(--line);
       border-radius: 22px;
       padding: 18px;
       margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(70, 45, 25, 0.08);
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
     }
 
     h2 {
@@ -73,20 +89,30 @@
       display: block;
       font-weight: 700;
       margin: 14px 0 6px;
+      color: var(--text);
     }
 
     input, select, button {
       width: 100%;
       font-size: 18px;
       border-radius: 14px;
-      border: 1px solid #d9c4b2;
+      border: 1px solid var(--line);
       padding: 14px;
-      background: white;
+      background: var(--card2);
+      color: var(--text);
+    }
+
+    input::placeholder {
+      color: #929a90;
+    }
+
+    select {
+      appearance: none;
     }
 
     button {
       border: none;
-      background: #b86f45;
+      background: var(--green);
       color: white;
       font-weight: 800;
       margin-top: 14px;
@@ -94,12 +120,13 @@
     }
 
     button.secondary {
-      background: #ead9c8;
-      color: #2d2118;
+      background: #4a514b;
+      color: var(--text);
     }
 
     button.danger {
-      background: #8f3f2f;
+      background: var(--danger);
+      color: white;
     }
 
     .mode {
@@ -113,12 +140,12 @@
       margin: 0;
       font-size: 15px;
       padding: 12px;
-      background: #ead9c8;
-      color: #2d2118;
+      background: #4a514b;
+      color: var(--muted);
     }
 
     .mode button.active {
-      background: #b86f45;
+      background: var(--green);
       color: white;
     }
 
@@ -136,13 +163,14 @@
       top: 50%;
       transform: translateY(-50%);
       font-weight: 800;
-      color: #7b6657;
+      color: var(--muted);
     }
 
     .result {
       min-height: 150px;
       padding: 24px;
-      background: #f1dfcd;
+      background: #2f352f;
+      border: 1px solid #4c5748;
       border-radius: 18px;
       margin-top: 16px;
       display: flex;
@@ -154,7 +182,7 @@
 
     .result-label {
       font-size: 15px;
-      color: #7b6657;
+      color: var(--muted);
       margin-bottom: 8px;
       font-weight: 700;
     }
@@ -162,7 +190,7 @@
     .result .big {
       font-size: 46px;
       font-weight: 900;
-      color: #8f5130;
+      color: #dbe7d3;
       line-height: 1;
     }
 
@@ -173,7 +201,7 @@
 
     .small {
       font-size: 14px;
-      color: #7b6657;
+      color: var(--muted);
       margin-top: 8px;
     }
 
@@ -182,8 +210,8 @@
     }
 
     .clay-item {
-      background: #fff;
-      border: 1px solid #ead9c8;
+      background: var(--card2);
+      border: 1px solid var(--line);
       border-radius: 16px;
       padding: 12px;
       margin-top: 10px;
@@ -194,11 +222,12 @@
       display: block;
       font-size: 16px;
       margin-bottom: 4px;
+      color: var(--text);
     }
 
     .history-item {
-      background: #fff;
-      border: 1px solid #ead9c8;
+      background: var(--card2);
+      border: 1px solid var(--line);
       border-radius: 18px;
       padding: 14px;
       margin-top: 10px;
@@ -215,11 +244,12 @@
     .history-clay {
       font-weight: 900;
       font-size: 16px;
+      color: var(--text);
     }
 
     .badge {
-      background: #f1dfcd;
-      color: #6b3f28;
+      background: #50614b;
+      color: #eef6ea;
       border-radius: 999px;
       padding: 4px 9px;
       font-size: 13px;
@@ -230,17 +260,17 @@
     .history-phrase {
       font-size: 16px;
       line-height: 1.55;
-      color: #2d2118;
+      color: var(--text);
       margin: 8px 0;
     }
 
     .history-phrase strong {
-      color: #8f5130;
+      color: #cfe3c4;
       font-size: 18px;
     }
 
     .history-date {
-      color: #7b6657;
+      color: var(--muted);
       font-size: 13px;
       margin-top: 8px;
     }
