@@ -7,15 +7,18 @@
 
   <style>
     :root {
-      --bg: #2a2d2a;
-      --card: #353936;
-      --card2: #404540;
-      --line: #51574f;
-      --text: #f3f2ec;
-      --muted: #b8beb4;
-      --green: #6f8a63;
-      --green2: #89a17c;
-      --danger: #9b5d56;
+      --bg: #dfe4dc;
+      --bg-speck: #c8d0c5;
+      --card: #f5f6f1;
+      --card2: #e8ece4;
+      --line: #c4ccbf;
+      --text: #2d332e;
+      --muted: #6f7a6c;
+      --green: #7f9b72;
+      --green2: #9eb892;
+      --green-dark: #5f7656;
+      --danger: #b56b64;
+      --cream: #fbfbf6;
     }
 
     * { box-sizing: border-box; }
@@ -24,8 +27,8 @@
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 20% 20%, #303430 1px, transparent 1px),
-        radial-gradient(circle at 80% 60%, #2f332f 1px, transparent 1px),
+        radial-gradient(circle at 20% 20%, rgba(80,90,80,.12) 1px, transparent 1px),
+        radial-gradient(circle at 80% 60%, rgba(80,90,80,.10) 1px, transparent 1px),
         var(--bg);
       background-size: 18px 18px;
       color: var(--text);
@@ -48,10 +51,10 @@
     .tab {
       height: 64px;
       padding: 0;
-      border-radius: 20px;
+      border-radius: 22px;
       border: 1px solid var(--line);
       background: var(--card);
-      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      box-shadow: 0 8px 20px rgba(60, 70, 60, .12);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,7 +63,7 @@
     .tab svg {
       width: 32px;
       height: 32px;
-      fill: var(--green2);
+      fill: var(--green-dark);
     }
 
     .tab.active {
@@ -74,10 +77,10 @@
     .card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 22px;
+      border-radius: 26px;
       padding: 18px;
       margin-bottom: 16px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      box-shadow: 0 10px 24px rgba(60, 70, 60, .13);
     }
 
     h2 {
@@ -87,7 +90,7 @@
 
     label {
       display: block;
-      font-weight: 700;
+      font-weight: 800;
       margin: 14px 0 6px;
       color: var(--text);
     }
@@ -95,33 +98,31 @@
     input, select, button {
       width: 100%;
       font-size: 18px;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid var(--line);
       padding: 14px;
-      background: var(--card2);
+      background: var(--cream);
       color: var(--text);
     }
 
     input::placeholder {
-      color: #929a90;
-    }
-
-    select {
-      appearance: none;
+      color: #99a093;
     }
 
     button {
       border: none;
       background: var(--green);
       color: white;
-      font-weight: 800;
+      font-weight: 900;
       margin-top: 14px;
       cursor: pointer;
+      box-shadow: 0 6px 14px rgba(95, 118, 86, .2);
     }
 
     button.secondary {
-      background: #4a514b;
+      background: var(--card2);
       color: var(--text);
+      box-shadow: none;
     }
 
     button.danger {
@@ -140,13 +141,24 @@
       margin: 0;
       font-size: 15px;
       padding: 12px;
-      background: #4a514b;
+      background: var(--card2);
       color: var(--muted);
+      box-shadow: none;
     }
 
     .mode button.active {
       background: var(--green);
       color: white;
+    }
+
+    .clay-info {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--card2);
+      color: var(--muted);
+      font-weight: 800;
+      text-align: center;
     }
 
     .input-wrap {
@@ -162,16 +174,33 @@
       right: 16px;
       top: 50%;
       transform: translateY(-50%);
-      font-weight: 800;
+      font-weight: 900;
       color: var(--muted);
+    }
+
+    .path {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 16px 0 4px;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 15px;
+    }
+
+    .path span {
+      background: var(--card2);
+      padding: 8px 10px;
+      border-radius: 999px;
     }
 
     .result {
       min-height: 150px;
       padding: 24px;
-      background: #2f352f;
-      border: 1px solid #4c5748;
-      border-radius: 18px;
+      background: #edf3e8;
+      border: 1px solid #cad9c2;
+      border-radius: 22px;
       margin-top: 16px;
       display: flex;
       flex-direction: column;
@@ -184,19 +213,19 @@
       font-size: 15px;
       color: var(--muted);
       margin-bottom: 8px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .result .big {
       font-size: 46px;
-      font-weight: 900;
-      color: #dbe7d3;
+      font-weight: 950;
+      color: var(--green-dark);
       line-height: 1;
     }
 
     .unit {
       font-size: 24px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .small {
@@ -210,9 +239,9 @@
     }
 
     .clay-item {
-      background: var(--card2);
+      background: var(--cream);
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 12px;
       margin-top: 10px;
       font-size: 15px;
@@ -226,9 +255,9 @@
     }
 
     .history-item {
-      background: var(--card2);
+      background: var(--cream);
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 14px;
       margin-top: 10px;
     }
@@ -242,18 +271,18 @@
     }
 
     .history-clay {
-      font-weight: 900;
+      font-weight: 950;
       font-size: 16px;
       color: var(--text);
     }
 
     .badge {
-      background: #50614b;
-      color: #eef6ea;
+      background: #dce8d5;
+      color: var(--green-dark);
       border-radius: 999px;
-      padding: 4px 9px;
+      padding: 5px 10px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
@@ -265,7 +294,7 @@
     }
 
     .history-phrase strong {
-      color: #cfe3c4;
+      color: var(--green-dark);
       font-size: 18px;
     }
 
@@ -279,7 +308,8 @@
       font-size: 13px;
       padding: 8px 10px;
       margin-top: 8px;
-      border-radius: 10px;
+      border-radius: 12px;
+      box-shadow: none;
     }
   </style>
 </head>
@@ -309,23 +339,25 @@
 
     <section id="pageCalc" class="card">
       <div class="mode">
-        <button id="modeFreshToFinal" class="active">Fraîche → finale</button>
-        <button id="modeFinalToFresh">Finale → fraîche</button>
+        <button id="modeFreshToFinal" class="active">Fraîche → 🏁 finale</button>
+        <button id="modeFinalToFresh">🏁 finale → fraîche</button>
       </div>
 
       <label for="claySelect">Terre</label>
       <select id="claySelect"></select>
 
+      <div class="clay-info" id="clayInfo">Retrait : 12 %</div>
+
+      <div class="path" id="pathInfo">
+        <span>Fraîche</span>
+        →
+        <span>🏁 Finale</span>
+      </div>
+
       <label id="sizeLabel" for="sizeInput">Taille fraîche</label>
       <div class="input-wrap">
         <input id="sizeInput" type="number" inputmode="decimal" placeholder="Ex : 14" />
         <span class="input-unit">cm</span>
-      </div>
-
-      <label for="shrinkInput">Taux de retrait</label>
-      <div class="input-wrap">
-        <input id="shrinkInput" type="number" inputmode="decimal" placeholder="Ex : 12" />
-        <span class="input-unit">%</span>
       </div>
 
       <button onclick="calculate()">Calculer</button>
@@ -396,6 +428,19 @@
       localStorage.setItem("history", JSON.stringify(history));
     }
 
+    function getSelectedClay() {
+      const clays = getClays();
+      const selectedIndex = document.getElementById("claySelect").value;
+      return clays[selectedIndex] || clays[0];
+    }
+
+    function updateClayInfo() {
+      const clay = getSelectedClay();
+      if (clay) {
+        document.getElementById("clayInfo").textContent = `Retrait : ${clay.shrink} %`;
+      }
+    }
+
     function renderClays() {
       const clays = getClays();
       const select = document.getElementById("claySelect");
@@ -420,18 +465,11 @@
         list.appendChild(div);
       });
 
-      if (clays.length > 0) {
-        document.getElementById("shrinkInput").value = clays[0].shrink;
-      }
+      updateClayInfo();
     }
 
     document.getElementById("claySelect").addEventListener("change", function() {
-      const clays = getClays();
-      const clay = clays[this.value];
-
-      if (clay) {
-        document.getElementById("shrinkInput").value = clay.shrink;
-      }
+      updateClayInfo();
     });
 
     function saveClay() {
@@ -477,6 +515,11 @@
       document.getElementById("sizeLabel").textContent =
         mode === "freshToFinal" ? "Taille fraîche" : "Taille finale voulue";
 
+      document.getElementById("pathInfo").innerHTML =
+        mode === "freshToFinal"
+          ? `<span>Fraîche</span> → <span>🏁 Finale</span>`
+          : `<span>🏁 Finale voulue</span> → <span>Fraîche à faire</span>`;
+
       document.getElementById("result").innerHTML = `
         <div class="big">— <span class="unit">cm</span></div>
       `;
@@ -487,12 +530,11 @@
 
     function calculate() {
       const size = parseFloat(document.getElementById("sizeInput").value);
-      const shrink = parseFloat(document.getElementById("shrinkInput").value);
-      const clays = getClays();
-      const clay = clays[document.getElementById("claySelect").value];
+      const clay = getSelectedClay();
+      const shrink = clay.shrink;
 
       if (isNaN(size) || isNaN(shrink) || shrink <= 0 || shrink >= 100) {
-        alert("Entre une taille et un taux de retrait valide.");
+        alert("Choisis une terre et entre une taille valide.");
         return;
       }
 
@@ -502,7 +544,7 @@
 
       if (mode === "freshToFinal") {
         result = size * factor;
-        label = "Taille finale estimée";
+        label = "🏁 Taille finale estimée";
       } else {
         result = size / factor;
         label = "Taille fraîche à faire";
@@ -513,11 +555,11 @@
       document.getElementById("result").innerHTML = `
         <div class="result-label">${label}</div>
         <div class="big">${result} <span class="unit">cm</span></div>
-        <div class="small">avec ${shrink} % de retrait</div>
+        <div class="small">${clay.name} · retrait ${shrink} %</div>
       `;
 
       lastCalculation = {
-        clay: clay ? clay.name : "Terre inconnue",
+        clay: clay.name,
         shrink,
         mode,
         input: size,
@@ -559,11 +601,11 @@
         if (item.mode === "freshToFinal") {
           phrase = `
             Taille fraîche <strong>${item.input} cm</strong><br>
-            → Taille finale estimée <strong>${item.result} cm</strong>
+            → 🏁 Taille finale estimée <strong>${item.result} cm</strong>
           `;
         } else {
           phrase = `
-            Taille finale voulue <strong>${item.input} cm</strong><br>
+            🏁 Taille finale voulue <strong>${item.input} cm</strong><br>
             → Taille fraîche à faire <strong>${item.result} cm</strong>
           `;
         }
